@@ -4,6 +4,7 @@ on:
     inputs:
       tag:
         description: 'Image tag'
+      default: ${{ github.sha }}
 
 env:
   DOMAIN: ghcr.io
