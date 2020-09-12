@@ -1,0 +1,23 @@
+name: manual trigger for push to GitHub Container Registry
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Image tag'
+
+env:
+  DOMAIN: ghcr.io
+
+jobs:
+  push-dhcr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Login GitHub Container Registry
+        run: docker login ${DOMAIN} -u ${GITHUB_ACTOR} -p ${{ secrets.CR_PAT }}
+      - name: Build image
+        run: docker build -f Dockerfile -t ${DOMAIN}/${{ github.repository_owner }}/centos:${{ github.sha }} .
+      - name: Push image to GitHub Container Registry
+        run: docker push ${DOMAIN}/${{ github.repository_owner }}/centos:${{ github.sha }}
