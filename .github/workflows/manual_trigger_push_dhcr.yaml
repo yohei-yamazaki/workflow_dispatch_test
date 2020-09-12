@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Image tag'
+        description: Image tag
         default: master
 
 env:
